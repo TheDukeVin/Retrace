@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - wallTag0
+  - wallTag1
+  - ButtonTag0
+  - ButtonTag1
   layers:
   - Default
   - TransparentFX

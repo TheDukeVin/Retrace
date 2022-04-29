@@ -7,17 +7,30 @@ using UnityEditor.SceneManagement;
 
 public class ManagerScript : MonoBehaviour
 {
-    public List<GameObject> objects = new List<GameObject>();
+    public List<GameObject> players = new List<GameObject>();
     public GameObject camera;
-    public List<Material> materials = new List<Material>();
+    public List<GameObject> wallPrefabs = new List<GameObject>();
     private int currentObject = 0;
-    public List<string> walls = new List<string>();
+    private int numTypes = 2;
+    private List<string> wallTags;
+    private List<string> buttonTags;
+    private List<bool> activated;
     
     // Start is called before the first frame update
     void Start()
     {
-        walls.Add("wallTag0");
-        walls.Add("wallTag1");
+        wallTags = new List<string>();
+        wallTags.Add("wallTag0");
+        wallTags.Add("wallTag1");
+
+        buttonTags = new List<string>();
+        buttonTags.Add("ButtonTag0");
+        buttonTags.Add("ButtonTag1");
+
+        activated = new List<bool>();
+        for(int i=0; i<numTypes; i++){
+            activated.Add(false);
+        }
         //Debug.Log(GameObject.FindGameObjectsWithTag(walls[0]).Length);
     }
 
@@ -25,8 +38,9 @@ public class ManagerScript : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown("r")){
-            currentObject = (currentObject + 1) % objects.Count;
+            currentObject = (currentObject + 1) % players.Count;
         }
+        /*
         if(Input.GetKeyDown("c")){
             foreach(GameObject wall in GameObject.FindGameObjectsWithTag(walls[0])){
                 Renderer r = wall.GetComponent<Renderer>();
@@ -34,15 +48,33 @@ public class ManagerScript : MonoBehaviour
                 Color c = m.color;
                 m.color = new Color(c.r, c.g, c.b, 0.3f);
             }
-            /*
-            Debug.Log(walls[0]);
-            List<GameObject> wall0s = FindAllPrefabInstances(walls[0]);
-            Renderer renderer = wall0s[0].GetComponent<Renderer>();
-            Material mat = renderer.material;
-            Color past_color = mat.color;
-            mat.color = new Color(past_color.r, past_color.g, past_color.b, 0.3f);
-            //Color past_color = materials[0].color;
-            //materials[0].color = new Color(past_color.r, past_color.g, past_color.b, 0.3f);*/
+        }*/
+        for(int i=0; i<numTypes; i++){
+            activated[i] = false;
+            foreach(GameObject button in GameObject.FindGameObjectsWithTag(buttonTags[i])){
+                foreach(GameObject player in players){
+                    if(button.GetComponent<Collider>().bounds.Intersects(player.GetComponent<Collider>().bounds)){
+                        activated[i] = true;
+                    }
+                }
+            }
+            
+            if(activated[i]){
+                Material m = wallPrefabs[i].GetComponent<Renderer>().sharedMaterial;
+                Color c = m.color;
+                m.color = new Color(c.r, c.g, c.b, 0.1f);
+                foreach(GameObject wall in GameObject.FindGameObjectsWithTag(wallTags[i])){
+                    wall.GetComponent<Collider>().isTrigger = true;
+                }
+            }
+            else{
+                Material m = wallPrefabs[i].GetComponent<Renderer>().sharedMaterial;
+                Color c = m.color;
+                m.color = new Color(c.r, c.g, c.b, 1f);
+                foreach(GameObject wall in GameObject.FindGameObjectsWithTag(wallTags[i])){
+                    wall.GetComponent<Collider>().isTrigger = false;
+                }
+            }
         }
 
         Vector3 direction = new Vector3(0.0f, 0.0f, 0.0f);
@@ -58,7 +90,7 @@ public class ManagerScript : MonoBehaviour
         if (Input.GetKey("a")) {
             direction = new Vector3(-1.0f, 0.0f, 0.0f);
         }
-        objects[currentObject].GetComponent<cube_script>().UpdatePosition(direction);
-        camera.GetComponent<CameraScript>().UpdatePosition(objects[currentObject].transform.position);
+        players[currentObject].GetComponent<cube_script>().UpdatePosition(direction);
+        camera.GetComponent<CameraScript>().UpdatePosition(players[currentObject].transform.position);
     }
 }

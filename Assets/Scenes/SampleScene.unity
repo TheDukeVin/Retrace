@@ -694,11 +694,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4028053117130590964, guid: 023c3ad33308a464abf8e61915eb278a, type: 3}
   m_PrefabInstance: {fileID: 970763769}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1294856891 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1284311603483155802, guid: 936f38f90503a4cba9eb1153c8c953f4, type: 3}
-  m_PrefabInstance: {fileID: 1869389834}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1869389834
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -785,16 +780,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12fb04a36b08d419e811be91b6cb8976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objects:
+  players:
   - {fileID: 843263226}
   - {fileID: 1158550048}
   camera: {fileID: 963194225}
-  materials:
-  - {fileID: 2100000, guid: 3b50e63e5af5e455ba92f28e5640586c, type: 2}
-  - {fileID: 2100000, guid: 8d8a2fc05f4e341ada102158d6161001, type: 2}
-  walls:
+  wallPrefabs:
   - {fileID: 1284311603483155802, guid: 936f38f90503a4cba9eb1153c8c953f4, type: 3}
-  some_wall: {fileID: 1294856891}
+  - {fileID: 1584753607576941490, guid: ecc1ea3d2153c408cbdcd46ad6813a24, type: 3}
 --- !u!4 &1898057323
 Transform:
   m_ObjectHideFlags: 0
@@ -875,7 +867,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1076020299858516248, guid: 4923d30aacca54e08b6a2f0713761dec, type: 3}
       propertyPath: m_TagString
-      value: wallTag0
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4923d30aacca54e08b6a2f0713761dec, type: 3}
